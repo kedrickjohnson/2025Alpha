@@ -47,7 +47,7 @@ public class RobotContainer {
 
   // The driver's controller
   Joystick m_Joystick0 = new Joystick(OIConstants.kDriverControllerPort0);
-  Joystick m_Joystick1 = new Joystick(OIConstants.kDriverControllerPort2);
+  Joystick m_Joystick1 = new Joystick(OIConstants.kDriverControllerPort1);
   XboxController m_XBoxController2 = new XboxController(OIConstants.kDriverControllerPort2);
 
   /**
