@@ -18,10 +18,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -41,6 +44,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
@@ -48,7 +52,7 @@ public class RobotContainer {
   // The driver's controller
   Joystick m_Joystick0 = new Joystick(OIConstants.kDriverControllerPort0);
   Joystick m_Joystick1 = new Joystick(OIConstants.kDriverControllerPort1);
-  XboxController m_XBoxController2 = new XboxController(OIConstants.kDriverControllerPort2);
+  //XboxController m_XBoxController2 = new XboxController(OIConstants.kDriverControllerPort2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,6 +88,12 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+
+    final JoystickButton ElevatorUp = new JoystickButton(m_Joystick0, 5);
+    ElevatorUp.whileTrue(new ElevatorCommand(ElevatorConstants.ElevatorSpeed, m_ElevatorSubsystem)).whileFalse(new ElevatorCommand(0, m_ElevatorSubsystem));
+
+    final JoystickButton ElevatorDown = new JoystickButton(m_Joystick0, 3);
+    ElevatorDown.whileTrue(new ElevatorCommand(-1 * ElevatorConstants.ElevatorSpeed, m_ElevatorSubsystem)).whileFalse(new ElevatorCommand(0, m_ElevatorSubsystem));
   }
 
   /**

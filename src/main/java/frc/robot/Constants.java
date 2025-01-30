@@ -42,9 +42,9 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11; //Black
+    public static final int kFrontLeftDrivingCanId = 15; //Blue
     public static final int kRearLeftDrivingCanId = 13; //Red
-    public static final int kFrontRightDrivingCanId = 15; //Blue
+    public static final int kFrontRightDrivingCanId = 11; //Black
     public static final int kRearRightDrivingCanId = 17; //Green
 
     public static final int kFrontLeftTurningCanId = 10;
@@ -96,5 +96,16 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static final class MotorConstants {
+    public static final int AmpLimit550 = 20;
+    public static final int AmpLimitNeo = 50;
+    public static final int AmplLimitVortex = 80;
+  }
+
+  public static final class ElevatorConstants {
+    public static final int ElevatorCanID = 2;
+    public static final double ElevatorSpeed = .05;
   }
 }
