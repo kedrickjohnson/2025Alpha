@@ -9,9 +9,9 @@ import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-    private static SparkMax sparkMax2 = new SparkMax(ElevatorConstants.ElevatorCanID, MotorType.kBrushless);
+    private static SparkMax sparkMax4 = new SparkMax(ElevatorConstants.ElevatorCanID, MotorType.kBrushless);
 
     public static void Extend(double speed) {
-        sparkMax2.set(speed);
+        sparkMax4.set(speed);
     }
 }

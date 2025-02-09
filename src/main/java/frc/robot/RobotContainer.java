@@ -15,14 +15,18 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -34,6 +38,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.List;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -54,12 +60,17 @@ public class RobotContainer {
   Joystick m_Joystick1 = new Joystick(OIConstants.kDriverControllerPort1);
   //XboxController m_XBoxController2 = new XboxController(OIConstants.kDriverControllerPort2);
 
+  SendableChooser<Command> m_chooser = new SendableChooser();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    
+    SmartDashboard.putData("Auto Chooser",m_chooser);
+    m_chooser.setDefaultOption("Front Subwoofer", AutoBuilder.buildAuto("Test1"));
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -94,6 +105,12 @@ public class RobotContainer {
 
     final JoystickButton ElevatorDown = new JoystickButton(m_Joystick0, 3);
     ElevatorDown.whileTrue(new ElevatorCommand(-1 * ElevatorConstants.ElevatorSpeed, m_ElevatorSubsystem)).whileFalse(new ElevatorCommand(0, m_ElevatorSubsystem));
+
+    final JoystickButton ClimbUp = new JoystickButton(m_Joystick1, 6);
+    ClimbUp.whileTrue(new ClimberSubsystem().climberCommand(ClimberConstants.ClimbSpeed)).whileFalse(new ClimberSubsystem().climberCommand(0));
+
+    final JoystickButton ClimbDown = new JoystickButton(m_Joystick1, 4);
+    ClimbDown.whileTrue(new ClimberSubsystem().climberCommand(ClimberConstants.ClimbSpeed * -1)).whileFalse(new ClimberSubsystem().climberCommand(0));
   }
 
   /**
@@ -102,7 +119,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return m_chooser.getSelected();
   }
 }

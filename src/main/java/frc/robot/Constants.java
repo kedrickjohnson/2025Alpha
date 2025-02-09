@@ -42,15 +42,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 15; //Blue
-    public static final int kRearLeftDrivingCanId = 13; //Red
-    public static final int kFrontRightDrivingCanId = 11; //Black
-    public static final int kRearRightDrivingCanId = 17; //Green
+    public static final int kFrontLeftDrivingCanId = 19; //Green
+    public static final int kRearLeftDrivingCanId = 18; //Black
+    public static final int kFrontRightDrivingCanId = 15; //Red
+    public static final int kRearRightDrivingCanId = 14; //Blue
 
-    public static final int kFrontLeftTurningCanId = 10;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 16;
+    public static final int kFrontLeftTurningCanId = 17;
+    public static final int kRearLeftTurningCanId = 16;
+    public static final int kFrontRightTurningCanId = 20; //PDH port 0
+    public static final int kRearRightTurningCanId = 1;
 
     public static final boolean kGyroReversed = false;
   }
@@ -105,7 +105,13 @@ public final class Constants {
   }
 
   public static final class ElevatorConstants {
-    public static final int ElevatorCanID = 2;
-    public static final double ElevatorSpeed = .05;
+    public static final int ElevatorCanID = 4;
+    public static final double ElevatorSpeed = .2;
+  }
+
+  public static final class ClimberConstants {
+    public static final int FrontClimbCanID = 2;
+    public static final int BackClimbCanID = 3;
+    public static final double ClimbSpeed = 0.6;
   }
 }
