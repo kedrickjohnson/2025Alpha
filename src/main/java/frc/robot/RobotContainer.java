@@ -70,7 +70,9 @@ public class RobotContainer {
     configureButtonBindings();
     
     SmartDashboard.putData("Auto Chooser",m_chooser);
-    m_chooser.setDefaultOption("Front Subwoofer", AutoBuilder.buildAuto("Test1"));
+    m_chooser.setDefaultOption("MainTest", AutoBuilder.buildAuto("MainTest"));
+    m_chooser.addOption("Turn", AutoBuilder.buildAuto("Turn"));
+    m_chooser.addOption("No Auto", NoAuto);
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -112,6 +114,8 @@ public class RobotContainer {
     final JoystickButton ClimbDown = new JoystickButton(m_Joystick1, 4);
     ClimbDown.whileTrue(new ClimberSubsystem().climberCommand(ClimberConstants.ClimbSpeed * -1)).whileFalse(new ClimberSubsystem().climberCommand(0));
   }
+
+  private Command NoAuto;
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
