@@ -30,10 +30,10 @@ public final class Constants {
     public static final double kWheelBase = Units.inchesToMeters(28.0);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+        new Translation2d(.552, .564),
+        new Translation2d(.552, -.061),
+        new Translation2d(-.164, .564),
+        new Translation2d(-.164, -.061));
 
     // Angular offsets of the modules relative to the chassis in radians
     public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
@@ -106,12 +106,17 @@ public final class Constants {
 
   public static final class ElevatorConstants {
     public static final int ElevatorCanID = 4;
-    public static final double ElevatorSpeed = .2;
+    public static final double ElevatorSpeed = .3;
   }
 
   public static final class ClimberConstants {
     public static final int FrontClimbCanID = 2;
     public static final int BackClimbCanID = 3;
-    public static final double ClimbSpeed = 0.6;
+    public static final double ClimbSpeed = 0.2;
+  }
+
+  public static final class PivotConstants {
+    public static final int PivotCanID = 13;
+    public static final double PivotSpeed = .15;
   }
 }

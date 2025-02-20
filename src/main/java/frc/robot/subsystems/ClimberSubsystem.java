@@ -18,7 +18,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command climberCommand(double speed) {
         return run(() -> {
             sparkMax2.set(speed);
-            sparkMax3.set(speed * -1);
+            sparkMax3.set(speed);
         });
     }
 }
