@@ -76,7 +76,7 @@ public final class Constants {
     public static final int kDriverControllerPort0 = 0;
     public static final int kDriverControllerPort1 = 1;
     public static final int kDriverControllerPort2 = 2;
-    public static final double kDriveDeadband = 0.05;
+    public static final double kDriveDeadband = 0.1;
   }
 
   public static final class AutoConstants {
@@ -118,5 +118,6 @@ public final class Constants {
   public static final class PivotConstants {
     public static final int PivotCanID = 13;
     public static final double PivotSpeed = .15;
+    public static final double PivotMaxSpeed = .6;
   }
 }

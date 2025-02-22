@@ -28,10 +28,8 @@ public class ElevatorPIDCommand extends Command {
     @Override
     public boolean isFinished() {
         if (elevatorSubsystem.atSetpoint()) {
-            SmartDashboard.putBoolean("isFinished", true);
             return true;
         } else {
-            SmartDashboard.putBoolean("isFinished", false);
             return false;
         }
     }
