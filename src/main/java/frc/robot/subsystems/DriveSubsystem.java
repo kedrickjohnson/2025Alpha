@@ -9,11 +9,13 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -93,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
             (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     new PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(15, 0.0, 0.0) // Rotation PID constants
+                    new PIDConstants(1.0, 0.0, 0.0) // Rotation PID constants
             ),
             config, // The robot configuration
             () -> {
@@ -102,9 +104,9 @@ public class DriveSubsystem extends SubsystemBase {
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
               var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
+              /*if (alliance.isPresent()) {
                 return alliance.get() == DriverStation.Alliance.Red;
-              }
+              }*/
               return false;
             },
             this // Reference to this subsystem to set requirements
@@ -126,6 +128,9 @@ public class DriveSubsystem extends SubsystemBase {
         });
     SmartDashboard.putNumber("GYRO POSOTION", Rotation2d.fromDegrees(-1 * m_gyro.getAngle()).getDegrees());
     field2d.setRobotPose(getPose());
+    SmartDashboard.putNumber("Position X", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Position Y", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Rotation Speed", m_odometry.getPoseMeters().getRotation().getDegrees());
   }
 
   /**
@@ -134,7 +139,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return new Pose2d(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), new Rotation2d(-m_gyro.getAngle() * Math.PI / 180));    
+    //return m_odometry.getPoseMeters();
   }
 
   /**
@@ -190,7 +196,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 private void drive(ChassisSpeeds speeds, boolean fieldRelative) {
     if (fieldRelative)
-        speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getPose().getRotation());
+        speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, Rotation2d.fromDegrees(m_gyro.getAngle() * -1)); //getPose().getRotation()
     speeds = ChassisSpeeds.discretize(speeds, TimedRobot.kDefaultPeriod);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -254,8 +260,8 @@ private SwerveModuleState[] getModuleStates() {
    */
   public double getHeading() {
     return Rotation2d.fromDegrees(m_gyro.getAngle() * -1).getDegrees();
+    //return m_gyro.getHeading;
   }
-
   /**
    * Returns the turn rate of the robot.
    *

@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Piece1All"
@@ -13,19 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PivotL1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PivotLoad"
+            "name": "L1Full"
           }
         }
       ]
