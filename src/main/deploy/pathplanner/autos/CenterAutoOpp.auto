@@ -15,24 +15,6 @@
           "data": {
             "pathName": "Piece1Opp"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PivotL1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PivotLoad"
-          }
         }
       ]
     }

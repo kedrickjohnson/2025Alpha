@@ -45,8 +45,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import java.util.List;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -89,6 +87,7 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser",m_chooser);
     m_chooser.setDefaultOption("CenterAutoOpp", AutoBuilder.buildAuto("CenterAutoOpp"));
     m_chooser.addOption("CenterAutoAll", AutoBuilder.buildAuto("CenterAutoAll"));
+    m_chooser.addOption("MidOpp", AutoBuilder.buildAuto("MidOpp"));
     m_chooser.addOption("Leave", AutoBuilder.buildAuto("Leave"));
     m_chooser.addOption("MainTest", AutoBuilder.buildAuto("MainTest"));
     m_chooser.addOption("Turn", AutoBuilder.buildAuto("Turn"));
@@ -101,8 +100,8 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_Joystick0.getY() * 0.75, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_Joystick0.getX() * 0.75, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_Joystick0.getY() * 0.70, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_Joystick0.getX() * 0.70, OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_Joystick1.getX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
@@ -141,14 +140,17 @@ public class RobotContainer {
     final JoystickButton PivotDown = new JoystickButton(m_Joystick0, 3);
     PivotDown.whileTrue(m_PivotSubsystem.pivotCommand(PivotConstants.PivotSpeed * -1)).whileFalse(new PivotSubsystem().pivotCommand(0));
 
-    /*final JoystickButton ElevatorStart = new JoystickButton(m_Joystick1, 3);
-    ElevatorStart.onTrue(new ElevatorPIDCommand(m_ElevatorSubsystem, 0));
+    final JoystickButton ElevatorStart = new JoystickButton(m_Joystick1, 5);
+    ElevatorStart.onTrue(new ElevatorPIDCommand(m_ElevatorSubsystem, 100));
 
-    final JoystickButton ElevatorL2 = new JoystickButton(m_Joystick1, 5);
-    ElevatorL2.onTrue(new ElevatorPIDCommand(m_ElevatorSubsystem, 12));
+    final JoystickButton ElevatorL2 = new JoystickButton(m_Joystick1, 6);
+    ElevatorL2.onTrue(new ElevatorPIDCommand(m_ElevatorSubsystem, 16000));
+
+    final JoystickButton ElevatorL3 = new JoystickButton(m_Joystick0, 5);
+    ElevatorL3.onTrue(new ElevatorPIDCommand(m_ElevatorSubsystem, 24000));
 
     final JoystickButton ResetElevatorEncoder = new JoystickButton(m_Joystick0, 7);
-    ResetElevatorEncoder.onTrue(m_ElevatorSubsystem.ResetEncoder());*/
+    ResetElevatorEncoder.onTrue(m_ElevatorSubsystem.ResetEncoder());
 
     final JoystickButton PivotLoad = new JoystickButton(m_Joystick0, 1);
     PivotLoad.onTrue(new PivotPIDCommand(m_PivotSubsystem, 180));

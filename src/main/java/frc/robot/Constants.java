@@ -105,8 +105,10 @@ public final class Constants {
   }
 
   public static final class ElevatorConstants {
-    public static final int ElevatorCanID = 4;
+    public static final int ElevatorCanID1 = 4;
+    public static final int ElevatorCanID2 = 12;
     public static final double ElevatorSpeed = .3;
+    public static final double ElevatorMaxSpeed = .5;
   }
 
   public static final class ClimberConstants {
@@ -119,5 +121,9 @@ public final class Constants {
     public static final int PivotCanID = 13;
     public static final double PivotSpeed = .15;
     public static final double PivotMaxSpeed = .6;
+  }
+
+  public static final class VisionConstants {
+    public static final int periodicCyclesPerVisionEstimate = 5;
   }
 }
