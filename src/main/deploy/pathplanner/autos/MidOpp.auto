@@ -5,33 +5,59 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "OppCentL2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OppCentL2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 0.25
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "ID22-ID12"
+            "name": "L1Full"
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 1.0
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "ID22-ID12"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "ID12-17"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L1Full"
           }
         }
       ]

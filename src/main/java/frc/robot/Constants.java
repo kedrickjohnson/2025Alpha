@@ -80,7 +80,7 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 4.5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
@@ -109,6 +109,9 @@ public final class Constants {
     public static final int ElevatorCanID2 = 12;
     public static final double ElevatorSpeed = .3;
     public static final double ElevatorMaxSpeed = .5;
+    public static final int ElevatorStartSetpoint = 100;
+    public static final int ElevatorL2Setpoint = 14700;
+    public static final int ElevatorL3Setpoint = 44870;
   }
 
   public static final class ClimberConstants {
@@ -119,8 +122,18 @@ public final class Constants {
 
   public static final class PivotConstants {
     public static final int PivotCanID = 13;
-    public static final double PivotSpeed = .15;
+    public static final double PivotSpeed = .3;
     public static final double PivotMaxSpeed = .6;
+    public static final double PivotLoad = 150;
+    public static final double PivotL1 = 70;
+    public static final double PivotL2 = 70;
+  }
+
+  public static final class IntakeConstants {
+    public static final int IntakeCanID = 11;
+    public static final double IntakeSpeed = .2;
+   
+
   }
 
   public static final class VisionConstants {

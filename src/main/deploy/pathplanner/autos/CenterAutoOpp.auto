@@ -15,6 +15,12 @@
           "data": {
             "pathName": "Piece1Opp"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L1Full"
+          }
         }
       ]
     }
