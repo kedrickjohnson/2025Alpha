@@ -28,6 +28,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -80,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase {
   private static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
   private static PhotonCamera driveCamera = new PhotonCamera("DriveCamera");
   //set camera postion from center of robot.  x is forward, y is left, z is up
-  private static Transform3d robotToCamera = new Transform3d(new Translation3d(0.1, -0.13, 17.5 / 39.37), new Rotation3d(Math.PI, 0, Math.PI/*Radians */));
+  private static Transform3d robotToCamera = new Transform3d(new Translation3d(0.1, 0.13, 17.5 / 39.37), new Rotation3d(Math.PI, 0, Math.PI/*Radians */));
 
   private PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
   private Optional<EstimatedRobotPose> cameraPose;
@@ -164,20 +165,20 @@ public class DriveSubsystem extends SubsystemBase {
     // Only use the camera once every 5 cycles of the periodic cycle.
     if (periodicCounter % VisionConstants.periodicCyclesPerVisionEstimate == 1) {
       var results = driveCamera.getAllUnreadResults();
-      if (!results.isEmpty()) {
+      if (!results.isEmpty() && !RobotState.isAutonomous()) {
         //driveCamera.markResultsRead(results);
         // I think we can improve this with a method that takes the last pose into account.  see photonVision docs.
         PhotonPipelineResult result = results.get(results.size() - 1);
         cameraPose = photonPoseEstimator.update(result);
+        if (cameraPose.isPresent()) {
+          m_odometry.addVisionMeasurement(cameraPose.get().estimatedPose.toPose2d(), cameraPose.get().timestampSeconds);
+          //System.out.println("XXXXXXXXXXXXXXXX Vision Estimate Added.");
+          SmartDashboard.putBoolean("Add Vision?", true);
+        } else {
+          SmartDashboard.putBoolean("Add Vision?", false);
+        }
       }
 
-      if (cameraPose.isPresent()) {
-        m_odometry.addVisionMeasurement(cameraPose.get().estimatedPose.toPose2d(), cameraPose.get().timestampSeconds);
-        //System.out.println("XXXXXXXXXXXXXXXX Vision Estimate Added.");
-        SmartDashboard.putBoolean("Add Vision?", true);
-      } else {
-        SmartDashboard.putBoolean("Add Vision?", false);
-      }
     }
 
     // Update the odometry in the periodic block

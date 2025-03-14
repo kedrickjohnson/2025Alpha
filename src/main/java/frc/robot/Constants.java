@@ -110,7 +110,7 @@ public final class Constants {
     public static final double ElevatorSpeed = .3;
     public static final double ElevatorMaxSpeed = .5;
     public static final int ElevatorStartSetpoint = 100;
-    public static final int ElevatorL2Setpoint = 14700;
+    public static final int ElevatorL2Setpoint = 14350;
     public static final int ElevatorL3Setpoint = 44870;
   }
 
@@ -131,7 +131,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int IntakeCanID = 11;
-    public static final double IntakeSpeed = .2;
+    public static final double IntakeSpeed = .3;
    
 
   }

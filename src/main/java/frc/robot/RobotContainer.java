@@ -155,10 +155,10 @@ public class RobotContainer {
     final JoystickButton ResetElevatorEncoder = new JoystickButton(m_Joystick0, 7);
     ResetElevatorEncoder.onTrue(m_ElevatorSubsystem.ResetEncoder());
 
-    final JoystickButton PivotLoad = new JoystickButton(m_Joystick0, 3);
+    final JoystickButton PivotLoad = new JoystickButton(m_Joystick0, 7);
     PivotLoad.onTrue(new PivotPIDCommand(m_PivotSubsystem, Constants.PivotConstants.PivotLoad));
 
-    final JoystickButton PivotL1 = new JoystickButton(m_Joystick1, 4);
+    final JoystickButton PivotL1 = new JoystickButton(m_Joystick1, 7);
     PivotL1.onTrue(new PivotPIDCommand(m_PivotSubsystem, Constants.PivotConstants.PivotL1));;
 
     /*final JoystickButton PivotL2 = new JoystickButton(m_Joystick1, 1);
