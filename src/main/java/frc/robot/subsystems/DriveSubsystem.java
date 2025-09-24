@@ -81,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase {
   private static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
   private static PhotonCamera driveCamera = new PhotonCamera("DriveCamera");
   //set camera postion from center of robot.  x is forward, y is left, z is up
-  private static Transform3d robotToCamera = new Transform3d(new Translation3d(0.1, 0.13, 17.5 / 39.37), new Rotation3d(Math.PI, 0, Math.PI/*Radians */));
+  private static Transform3d robotToCamera = new Transform3d(new Translation3d(-0.2175, -0.314, .53), new Rotation3d(Math.PI, 0, Math.PI/*Radians */));
 
   private PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
   private Optional<EstimatedRobotPose> cameraPose;
@@ -136,7 +136,7 @@ public class DriveSubsystem extends SubsystemBase {
             this::getPose, // Robot pose supplier
             this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            (speeds, feedforwards) -> driveRobotR  elative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     new PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
                     new PIDConstants(.50, 0.0, 0.0) // Rotation PID constants
@@ -149,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
 
               var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
+                return alliance.get() == DriverStation.Alliance.Red; 
               }
               return false;
             },
@@ -165,7 +165,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Only use the camera once every 5 cycles of the periodic cycle.
     if (periodicCounter % VisionConstants.periodicCyclesPerVisionEstimate == 1) {
       var results = driveCamera.getAllUnreadResults();
-      if (!results.isEmpty() && !RobotState.isAutonomous()) {
+      if (!results.isEmpty()) {
         //driveCamera.markResultsRead(results);
         // I think we can improve this with a method that takes the last pose into account.  see photonVision docs.
         PhotonPipelineResult result = results.get(results.size() - 1);

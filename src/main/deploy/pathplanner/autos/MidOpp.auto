@@ -13,20 +13,20 @@
                 "data": {
                   "pathName": "OppCentL2"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "L2Up"
+                }
               }
             ]
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "L1Full"
+            "name": "ScoreL2/3"
           }
         },
         {
@@ -38,20 +38,39 @@
                 "data": {
                   "pathName": "ID22-ID12"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PivotLoad"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "ID12-17"
+            "waitTime": 1.0
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 0.25
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "ID12-17"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorHold"
+                }
+              }
+            ]
           }
         },
         {

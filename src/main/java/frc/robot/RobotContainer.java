@@ -29,6 +29,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ElevatorPIDCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeAutoCommand;
 import frc.robot.commands.PivotAutoCommand;
 import frc.robot.commands.PivotPIDCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -38,6 +39,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -71,6 +73,8 @@ public class RobotContainer {
   //XboxController m_XBoxController2 = new XboxController(OIConstants.kDriverControllerPort2);
 
   SendableChooser<Command> m_chooser = new SendableChooser();
+  SendableChooser m_ControllerChooser = new SendableChooser();
+  SendableChooser m_DriveSpeed = new SendableChooser();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -86,8 +90,18 @@ public class RobotContainer {
       new WaitCommand(1),
       new PivotPIDCommand(m_PivotSubsystem, 180)
     ));
+    NamedCommands.registerCommand("L2Up", new ParallelCommandGroup(
+      new ElevatorPIDCommand(m_ElevatorSubsystem, ElevatorConstants.ElevatorL2Setpoint),
+      new PivotPIDCommand(m_PivotSubsystem, 80)
+    ));
+    NamedCommands.registerCommand("ScoreL2/3", new IntakeAutoCommand(m_IntakeSubsystem, 1, true));
+    NamedCommands.registerCommand("PivotLoad", new ParallelCommandGroup(
+      new ElevatorPIDCommand(m_ElevatorSubsystem, ElevatorConstants.ElevatorL2Setpoint),
+      new PivotPIDCommand(m_PivotSubsystem, 135)
+    ));
+    NamedCommands.registerCommand("ElevatorHold", new ElevatorPIDCommand(m_ElevatorSubsystem, 0));
     
-    SmartDashboard.putData("Auto Chooser",m_chooser);
+    SmartDashboard.putData("Auto Chooser", m_chooser);
     m_chooser.setDefaultOption("CenterAutoOpp", AutoBuilder.buildAuto("CenterAutoOpp"));
     m_chooser.addOption("CenterAutoAll", AutoBuilder.buildAuto("CenterAutoAll"));
     m_chooser.addOption("MidOpp", AutoBuilder.buildAuto("MidOpp"));
@@ -103,11 +117,15 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_Joystick0.getY() * 0.70, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_Joystick0.getX() * 0.70, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_Joystick0.getY() * .5, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_Joystick0.getX() * .5, OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_Joystick1.getX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+    
+    SmartDashboard.putData("Controller", m_ControllerChooser);
+    m_ControllerChooser.addOption("Drive", DriveControls);
+    m_ControllerChooser.addOption("Showcase", null);
   }
 
   /**
@@ -155,7 +173,7 @@ public class RobotContainer {
     final JoystickButton ResetElevatorEncoder = new JoystickButton(m_Joystick0, 7);
     ResetElevatorEncoder.onTrue(m_ElevatorSubsystem.ResetEncoder());
 
-    final JoystickButton PivotLoad = new JoystickButton(m_Joystick0, 7);
+    final JoystickButton PivotLoad = new JoystickButton(m_Joystick1, 8);
     PivotLoad.onTrue(new PivotPIDCommand(m_PivotSubsystem, Constants.PivotConstants.PivotLoad));
 
     final JoystickButton PivotL1 = new JoystickButton(m_Joystick1, 7);
@@ -173,6 +191,10 @@ public class RobotContainer {
   }
 
   private Command NoAuto;
+
+  private Object DriveControls = new Object() {
+
+  };
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
