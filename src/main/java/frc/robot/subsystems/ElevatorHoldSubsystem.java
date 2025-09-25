@@ -5,10 +5,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorHoldSubsystem extends SubsystemBase {
 
-  private static final int elevatorMotorCANId = 12; // Replace with the actual CAN ID
+  private static final int elevatorMotorCANId = ElevatorConstants.ElevatorCanID1;
   private final SparkMax elevatorMotor;
   private final AbsoluteEncoder absoluteEncoder;
   private final PIDController pidController;
@@ -20,8 +21,12 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
     absoluteEncoder = elevatorMotor.getAbsoluteEncoder();
 
     // Initialize PID controller with proportional, integral, and derivative gains
-    pidController = new PIDController(1.0, 0.0, 0.0); // Tune these values as needed
-    pidController.setTolerance(0.01); // Set tolerance for acceptable error
+    pidController = new PIDController(  ElevatorConstants.kP, 
+                                        ElevatorConstants.kI, 
+                                        ElevatorConstants.kD
+                                        );
+                               
+    pidController.setTolerance(ElevatorConstants.kTolerance); // Set tolerance for acceptable error
   }
 
   @Override
