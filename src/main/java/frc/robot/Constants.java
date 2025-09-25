@@ -112,6 +112,12 @@ public final class Constants {
     public static final int ElevatorStartSetpoint = 100;
     public static final int ElevatorL2Setpoint = 14350;
     public static final int ElevatorL3Setpoint = 44870;
+
+        // PID Constants
+        public static final double kP = 1.0; // Proportional gain
+        public static final double kI = 0.0; // Integral gain
+        public static final double kD = 0.0; // Derivative gain
+        public static final double kTolerance = 0.01; // Tolerance for setpoint
   }
 
   public static final class ClimberConstants {

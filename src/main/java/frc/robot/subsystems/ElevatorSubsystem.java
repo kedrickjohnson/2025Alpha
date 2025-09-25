@@ -1,15 +1,15 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkClosedLoopController;
+// import com.revrobotics.AbsoluteEncoder;
+//import com.revrobotics.RelativeEncoder;
+//import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.config.EncoderConfig;
+//import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.AlternateEncoderConfig.Type;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+//import com.revrobotics.spark.config.AlternateEncoderConfig.Type;
+//import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -29,11 +29,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static SparkMax sparkMax12 = new SparkMax(ElevatorConstants.ElevatorCanID2, MotorType.kBrushless);
     private static SparkMaxConfig elevatorConfig = new SparkMaxConfig();
     private static SparkMaxConfig followerConfig = new SparkMaxConfig();
-    private static SparkClosedLoopController elevatorController = sparkMax4.getClosedLoopController();
+    // private static SparkClosedLoopController elevatorController = sparkMax4.getClosedLoopController();
     
     private static final DigitalInput encA = new DigitalInput(3);
     private static final DigitalInput encB = new DigitalInput(4);
-    private static final DigitalInput encIndex = new DigitalInput(5);
+    // private static final DigitalInput encIndex = new DigitalInput(5);
     private static Encoder encoder = new Encoder(encA, encB, true, EncodingType.k4X);
     private static PIDController PIDElevator = new PIDController(0.00015, 0.00002, 0);
     //private static DigitalInput bottomLimit = new DigitalIO;
