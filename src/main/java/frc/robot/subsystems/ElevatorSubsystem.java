@@ -29,14 +29,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static SparkMax sparkMax12 = new SparkMax(ElevatorConstants.ElevatorCanID2, MotorType.kBrushless);
     private static SparkMaxConfig elevatorConfig = new SparkMaxConfig();
     private static SparkMaxConfig followerConfig = new SparkMaxConfig();
-    // private static SparkClosedLoopController elevatorController = sparkMax4.getClosedLoopController();
+   
     
     private static final DigitalInput encA = new DigitalInput(3);
     private static final DigitalInput encB = new DigitalInput(4);
-    // private static final DigitalInput encIndex = new DigitalInput(5);
+    
     private static Encoder encoder = new Encoder(encA, encB, true, EncodingType.k4X);
     private static PIDController PIDElevator = new PIDController(0.00015, 0.00002, 0);
-    //private static DigitalInput bottomLimit = new DigitalIO;
+    private static DigitalInput BottomLimit = new DigitalInput(5); // Replace 5 with the correct pin number if needed
 
     public ElevatorSubsystem() {
         elevatorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(MotorConstants.AmpLimitNeo);

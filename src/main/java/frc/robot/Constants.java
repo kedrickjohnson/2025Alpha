@@ -105,19 +105,26 @@ public final class Constants {
   }
 
   public static final class ElevatorConstants {
+    // CAN IDs
     public static final int ElevatorCanID1 = 4;
     public static final int ElevatorCanID2 = 12;
+    // Speeds
     public static final double ElevatorSpeed = .3;
     public static final double ElevatorMaxSpeed = .5;
+    // Setpoints
     public static final int ElevatorStartSetpoint = 100;
     public static final int ElevatorL2Setpoint = 14350;
     public static final int ElevatorL3Setpoint = 44870;
+    // Encoder Ports
+    public static final int encA = 3;
+    public static final int encB = 4;
 
-        // PID Constants
-        public static final double kP = 1.0; // Proportional gain
-        public static final double kI = 0.0; // Integral gain
-        public static final double kD = 0.0; // Derivative gain
-        public static final double kTolerance = 0.01; // Tolerance for setpoint
+    // PID Constants
+    public static final double kP = 0.00015; // Proportional gain
+    public static final double kI = 0.00002; // Integral gain
+    public static final double kD = 0.0; // Derivative gain
+    public static final double kTolerance = 100; // Tolerance for setpoint  
+    public static final double kIZone = 500; // Integral zone
   }
 
   public static final class ClimberConstants {
