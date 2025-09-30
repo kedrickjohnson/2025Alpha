@@ -113,17 +113,22 @@ public final class Constants {
     public static final double ElevatorMaxSpeed = .5;
     // Setpoints
     public static final int ElevatorStartSetpoint = 100;
-    public static final int ElevatorL2Setpoint = 14350;
-    public static final int ElevatorL3Setpoint = 44870;
+    public static final int ElevatorL2Setpoint = 5000;
+    public static final int ElevatorL3Setpoint = 8000;
     // Encoder Ports
     public static final int encA = 3;
     public static final int encB = 4;
+    // Limit Switch Port
+    public static final int BottomLimitPort = 0;
+    
+    // Sproke pitch diameter in inches
+    public static final double PitchDiameter = 1.432; 
 
     // PID Constants
-    public static final double kP = 0.00015; // Proportional gain
-    public static final double kI = 0.00002; // Integral gain
+    public static final double kP = 0.001; // Proportional gain
+    public static final double kI = 0.0000; // Integral gain
     public static final double kD = 0.0; // Derivative gain
-    public static final double kTolerance = 100; // Tolerance for setpoint  
+    public static final double kTolerance = 50; // Tolerance for setpoint  
     public static final double kIZone = 500; // Integral zone
   }
 

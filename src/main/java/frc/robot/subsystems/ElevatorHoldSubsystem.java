@@ -29,10 +29,12 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
   private static final DigitalInput encA = new DigitalInput(ElevatorConstants.encA);
   private static final DigitalInput encB = new DigitalInput(ElevatorConstants.encB);
+  // (limit switch removed)
 
   private static Encoder encoder = new Encoder(encA, encB, true, EncodingType.k4X);
-  private static PIDController PidElevator = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI,
-      ElevatorConstants.kD);
+  private static PIDController PidElevator = new PIDController(ElevatorConstants.kP,
+                                                                 ElevatorConstants.kI,
+                                                                ElevatorConstants.kD);
   // Limit Switche (if needed in future)
   // private static DigitalInput BottomLimit = new DigitalInput(5);
 
@@ -48,7 +50,7 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
     PidElevator.setTolerance(ElevatorConstants.kTolerance);
     PidElevator.setIZone(ElevatorConstants.kIZone);
-     encoder.setDistancePerPulse((Math.PI * 1.432) / 2048);
+    encoder.setDistancePerPulse((Math.PI * ElevatorConstants.PitchDiameter / (2048*4)));
   }
 
   @Override
