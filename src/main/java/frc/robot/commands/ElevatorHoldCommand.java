@@ -8,7 +8,6 @@ import frc.robot.subsystems.ElevatorHoldSubsystem;
  */
 public class ElevatorHoldCommand extends Command {
   public enum Preset { START, L2, L3 }
-
   private final ElevatorHoldSubsystem elevator;
   private final Preset preset;
 

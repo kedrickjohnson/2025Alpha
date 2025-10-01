@@ -110,11 +110,13 @@ public final class Constants {
     public static final int ElevatorCanID2 = 12;
     // Speeds
     public static final double ElevatorSpeed = .3;
-    public static final double ElevatorMaxSpeed = .5;
+    // public static final double ElevatorMaxSpeed = .5;
+
     // Setpoints
     public static final int ElevatorStartSetpoint = 100;
     public static final int ElevatorL2Setpoint = 5000;
     public static final int ElevatorL3Setpoint = 8000;
+
     // Encoder Ports
     public static final int encA = 3;
     public static final int encB = 4;

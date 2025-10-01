@@ -100,7 +100,11 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
     return encoder.get();
   
   }
-  public void resetEncoder() {
+  public static void Extend(double speed) {
+    sparkMax4.set(speed);
+}
+
+  public void ResetEncoder() {
     encoder.reset();
   }
 }
