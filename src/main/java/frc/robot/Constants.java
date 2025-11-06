@@ -132,6 +132,19 @@ public final class Constants {
     public static final double kD = 0.0; // Derivative gain
     public static final double kTolerance = 50; // Tolerance for setpoint  
     public static final double kIZone = 500; // Integral zone
+
+    // Motion Profile Constraints for ProfiledPIDController
+    public static final double kMaxVelocity = 2000; // Max velocity in encoder units per second
+    public static final double kMaxAcceleration = 4000; // Max acceleration in encoder units per second squared
+    
+    // Motion Profile Constraints
+    public static final TrapezoidProfile.Constraints kElevatorConstraints = 
+        new TrapezoidProfile.Constraints(kMaxVelocity, kMaxAcceleration);
+
+    // Feedforward Constants for ElevatorFeedforward
+    public static final double kS = 0.0; // Static gain (voltage to overcome static friction)
+    public static final double kG = 0.0; // Gravity gain (voltage to hold elevator in place)
+    public static final double kV = 0.0; // Velocity gain (voltage per unit velocity)
   }
 
   public static final class ClimberConstants {
