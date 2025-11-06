@@ -10,7 +10,9 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -32,10 +34,16 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
   // (limit switch removed)
 
   private static Encoder encoder = new Encoder(encA, encB, true, EncodingType.k4X);
-  private static PIDController PidElevator = new PIDController(ElevatorConstants.kP,
-                                                                 ElevatorConstants.kI,
-                                                                ElevatorConstants.kD);
-  // Limit Switche (if needed in future)
+  private static ProfiledPIDController PidElevator = new ProfiledPIDController(
+      ElevatorConstants.kP,
+      ElevatorConstants.kI,
+      ElevatorConstants.kD,
+      ElevatorConstants.kElevatorConstraints);
+  private static ElevatorFeedforward feedforward = new ElevatorFeedforward(
+      ElevatorConstants.kS,
+      ElevatorConstants.kG,
+      ElevatorConstants.kV);
+  // Limit Switch (if needed in future)
   // private static DigitalInput BottomLimit = new DigitalInput(5);
 
   private double targetPosition; // Target position
@@ -50,23 +58,34 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
     PidElevator.setTolerance(ElevatorConstants.kTolerance);
     PidElevator.setIZone(ElevatorConstants.kIZone);
-    encoder.setDistancePerPulse((Math.PI * ElevatorConstants.PitchDiameter / (2048*4)));
+    // Set encoder to measure distance in meters
+    encoder.setDistancePerPulse(ElevatorConstants.DistancePerPulse);
   }
 
   @Override
   public void periodic() {
-    // Set the PID controller's setpoint to the target position
-    PidElevator.setSetpoint(targetPosition);
-
     // Calculate the motor output based on the current position
-    double speed = PidElevator.calculate(encoder.get());
+    // ProfiledPIDController automatically handles the motion profile
+    double pidOutput = PidElevator.calculate(encoder.getDistance());
+    
+    // Calculate feedforward to compensate for gravity and velocity
+    double feedforwardOutput = feedforward.calculate(PidElevator.getSetpoint().velocity);
+    
+    // Combine PID and feedforward outputs
+    double voltage = pidOutput + feedforwardOutput;
 
-    // Set the motor speed to hold the elevator at the target position
-    sparkMax4.set(speed);
+    // Set the motor voltage to control the elevator
+    sparkMax4.setVoltage(voltage);
 
     // putting values on the SmartDashboard for tuning and logging
-    SmartDashboard.putNumber("Elevator Speed", speed);
-    SmartDashboard.putNumber("Elevator Position", getPosition());
+    SmartDashboard.putNumber("Elevator Voltage", voltage);
+    SmartDashboard.putNumber("Elevator PID Output", pidOutput);
+    SmartDashboard.putNumber("Elevator Feedforward Output", feedforwardOutput);
+    SmartDashboard.putNumber("Elevator Position (m)", getPosition());
+    SmartDashboard.putNumber("Elevator Target Position (m)", targetPosition);
+    SmartDashboard.putNumber("Elevator Goal Position (m)", PidElevator.getGoal().position);
+    SmartDashboard.putNumber("Elevator Setpoint Position (m)", PidElevator.getSetpoint().position);
+    SmartDashboard.putNumber("Elevator Setpoint Velocity (m/s)", PidElevator.getSetpoint().velocity);
     SmartDashboard.putBoolean("At Target Position", atTargetPosition());
 
   }
@@ -75,19 +94,22 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
   public void setStart() {
     targetPosition = ElevatorConstants.ElevatorStartSetpoint;
+    PidElevator.setGoal(targetPosition);
   }
 
   public void setL2() {
     targetPosition = ElevatorConstants.ElevatorL2Setpoint;
+    PidElevator.setGoal(targetPosition);
   }
 
   public void setL3() {
     targetPosition = ElevatorConstants.ElevatorL3Setpoint;
+    PidElevator.setGoal(targetPosition);
   }
 
   // Method to stop the elevator motor
   public void stop() {
-    sparkMax4.set(0);
+    sparkMax4.setVoltage(0);
   }
 
   // Method to check if the elevator is at the target position
@@ -97,8 +119,7 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
   }
 
   public double getPosition() {
-    return encoder.get();
-  
+    return encoder.getDistance();
   }
   public static void Extend(double speed) {
     sparkMax4.set(speed);
