@@ -43,7 +43,7 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
       ElevatorConstants.kS,
       ElevatorConstants.kG,
       ElevatorConstants.kV);
-  // Limit Switche (if needed in future)
+  // Limit Switch (if needed in future)
   // private static DigitalInput BottomLimit = new DigitalInput(5);
 
   private double targetPosition; // Target position
@@ -119,7 +119,6 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
   public double getPosition() {
     return encoder.getDistance();
-  
   }
   public static void Extend(double speed) {
     sparkMax4.set(speed);

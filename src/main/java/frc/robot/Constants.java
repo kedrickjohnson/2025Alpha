@@ -137,7 +137,6 @@ public final class Constants {
     public static final double kMaxVelocity = 2000; // Max velocity in encoder units per second
     public static final double kMaxAcceleration = 4000; // Max acceleration in encoder units per second squared
     
-    // Motion Profile Constraints
     public static final TrapezoidProfile.Constraints kElevatorConstraints = 
         new TrapezoidProfile.Constraints(kMaxVelocity, kMaxAcceleration);
 
