@@ -58,7 +58,8 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
 
     PidElevator.setTolerance(ElevatorConstants.kTolerance);
     PidElevator.setIZone(ElevatorConstants.kIZone);
-    encoder.setDistancePerPulse((Math.PI * ElevatorConstants.PitchDiameter / (2048*4)));
+    // Set encoder to measure distance in meters
+    encoder.setDistancePerPulse(ElevatorConstants.DistancePerPulse);
   }
 
   @Override
@@ -80,11 +81,11 @@ public class ElevatorHoldSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Voltage", voltage);
     SmartDashboard.putNumber("Elevator PID Output", pidOutput);
     SmartDashboard.putNumber("Elevator Feedforward Output", feedforwardOutput);
-    SmartDashboard.putNumber("Elevator Position", getPosition());
-    SmartDashboard.putNumber("Elevator Target Position", targetPosition);
-    SmartDashboard.putNumber("Elevator Goal Position", PidElevator.getGoal().position);
-    SmartDashboard.putNumber("Elevator Setpoint Position", PidElevator.getSetpoint().position);
-    SmartDashboard.putNumber("Elevator Setpoint Velocity", PidElevator.getSetpoint().velocity);
+    SmartDashboard.putNumber("Elevator Position (m)", getPosition());
+    SmartDashboard.putNumber("Elevator Target Position (m)", targetPosition);
+    SmartDashboard.putNumber("Elevator Goal Position (m)", PidElevator.getGoal().position);
+    SmartDashboard.putNumber("Elevator Setpoint Position (m)", PidElevator.getSetpoint().position);
+    SmartDashboard.putNumber("Elevator Setpoint Velocity (m/s)", PidElevator.getSetpoint().velocity);
     SmartDashboard.putBoolean("At Target Position", atTargetPosition());
 
   }

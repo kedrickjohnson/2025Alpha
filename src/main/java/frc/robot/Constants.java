@@ -112,38 +112,47 @@ public final class Constants {
     public static final double ElevatorSpeed = .3;
     // public static final double ElevatorMaxSpeed = .5;
 
-    // Setpoints
-    public static final int ElevatorStartSetpoint = 100;
-    public static final int ElevatorL2Setpoint = 5000;
-    public static final int ElevatorL3Setpoint = 8000;
-
-    // Encoder Ports
+    // Encoder Configuration
     public static final int encA = 3;
     public static final int encB = 4;
+    public static final int EncoderCPR = 2048; // Encoder counts per revolution
+    public static final int EncodingType = 4; // 4X encoding
+    public static final int PulsesPerRevolution = EncoderCPR * EncodingType; // Total pulses per revolution (8192)
+    
     // Limit Switch Port
     public static final int BottomLimitPort = 0;
     
-    // Sproke pitch diameter in inches
-    public static final double PitchDiameter = 1.432; 
+    // Sprocket pitch diameter in inches
+    public static final double PitchDiameterInches = 1.432;
+    public static final double PitchDiameterMeters = Units.inchesToMeters(PitchDiameterInches); // Convert to meters
+    public static final double MetersPerRevolution = Math.PI * PitchDiameterMeters; // Circumference in meters
+    
+    // Distance per encoder pulse (meters per pulse)
+    public static final double DistancePerPulse = MetersPerRevolution / PulsesPerRevolution;
 
-    // PID Constants
-    public static final double kP = 0.001; // Proportional gain
-    public static final double kI = 0.0000; // Integral gain
+    // Setpoints in meters
+    public static final double ElevatorStartSetpoint = 0.013; // ~100 pulses converted to meters
+    public static final double ElevatorL2Setpoint = 0.63; // ~5000 pulses converted to meters
+    public static final double ElevatorL3Setpoint = 1.0; // ~8000 pulses converted to meters
+
+    // PID Constants (now tuned for meters)
+    public static final double kP = 10.0; // Proportional gain (adjusted for meters)
+    public static final double kI = 0.0; // Integral gain
     public static final double kD = 0.0; // Derivative gain
-    public static final double kTolerance = 50; // Tolerance for setpoint  
-    public static final double kIZone = 500; // Integral zone
+    public static final double kTolerance = 0.006; // Tolerance in meters (~50 pulses)
+    public static final double kIZone = 0.063; // Integral zone in meters (~500 pulses)
 
-    // Motion Profile Constraints for ProfiledPIDController
-    public static final double kMaxVelocity = 2000; // Max velocity in encoder units per second
-    public static final double kMaxAcceleration = 4000; // Max acceleration in encoder units per second squared
+    // Motion Profile Constraints for ProfiledPIDController (in meters)
+    public static final double kMaxVelocityMetersPerSecond = 0.25; // Max velocity in meters per second
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5; // Max acceleration in meters per second squared
     
     public static final TrapezoidProfile.Constraints kElevatorConstraints = 
-        new TrapezoidProfile.Constraints(kMaxVelocity, kMaxAcceleration);
+        new TrapezoidProfile.Constraints(kMaxVelocityMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
 
     // Feedforward Constants for ElevatorFeedforward
     public static final double kS = 0.0; // Static gain (voltage to overcome static friction)
     public static final double kG = 0.0; // Gravity gain (voltage to hold elevator in place)
-    public static final double kV = 0.0; // Velocity gain (voltage per unit velocity)
+    public static final double kV = 0.0; // Velocity gain (voltage per unit velocity in meters/s)
   }
 
   public static final class ClimberConstants {
